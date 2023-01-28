@@ -12,6 +12,7 @@ def main():
 	rows = xml.findAll('Row')[first_row:]
 
 	limit = 3
+	rows_list = []
 	for count_row, row in enumerate(rows):
 		if count_row >= limit:
 			pass
@@ -24,6 +25,11 @@ def main():
 		data_list = row_list[3:]
 		# print(info_list)
 		# print(data_list)
+
+		if row_list:
+			rows_list.append(row_list)
+
+	print(rows_list)
 
 if __name__ == '__main__':
 	main()
