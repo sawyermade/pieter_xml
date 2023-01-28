@@ -1,15 +1,14 @@
 from bs4 import BeautifulSoup
 
 def main():
-	# Inoput file
+	# Input file
 	input_path = 'input.xml'
 
 	# Open xml file
 	with open(input_path) as input_file:
 		xml = BeautifulSoup(input_file, 'xml')
 
-	first_row = 3
-	dont_copy = ['TMC CODE', 'NAME', 'MILES']
+	# Pull tables
 	tables = xml.findAll('Table')
 	# print(len(tables))
 
@@ -46,8 +45,8 @@ def main():
 
 	# Debug printing
 	print(table_list)
-	print(len(table_list))
-	print(len(table_list) * len(table_list[0]))
+	print(f'\ntables: {len(table_list)}')
+	print(f'data points: {len(table_list) * len(table_list[0])}')
 
 if __name__ == '__main__':
 	main()
