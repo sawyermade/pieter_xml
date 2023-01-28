@@ -1,4 +1,4 @@
 # Install modules
 ```
-pip install beautifulsoup4 lxml
+pip install beautifulsoup4 lxml pandas
 ```

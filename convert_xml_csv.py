@@ -9,27 +9,45 @@ def main():
 		xml = BeautifulSoup(input_file, 'xml')
 
 	first_row = 3
-	rows = xml.findAll('Row')[first_row:]
+	dont_copy = ['TMC CODE', 'NAME', 'MILES']
+	tables = xml.findAll('Table')
+	# print(len(tables))
 
-	limit = 3
-	rows_list = []
-	for count_row, row in enumerate(rows):
-		if count_row >= limit:
-			pass
+	# Go through tables and create table list
+	table_list = []
+	for table in tables:
+		# Read rows
+		rows = table.findAll('Row')
+		date = rows[1].text.strip()
+		# print(date)
 
-		row_list = row.text.splitlines()[2:]
-		# print(len(row_list))
-		# print(row_list)
+		# Get all rows
+		rows_list = []
+		for row in rows[3:]:
+			row_list = row.text.splitlines()[2:]
+			info_list = row_list[0:3]
+			data_list = row_list[3:]
 
-		info_list = row_list[0:3]
-		data_list = row_list[3:]
-		# print(info_list)
-		# print(data_list)
+			# Goes through data values
+			for count_data, data in enumerate(data_list):
+				hour = str(count_data // 12)
+				minute = str((count_data % 12) * 5)
+				row_dict = {
+					'tmc_code' : info_list[0],
+					'name'     : info_list[1],
+					'miles'    : float(info_list[2]),
+					'time'     : f'{date} {hour.zfill(2)}:{minute.zfill(2)}',
+					'value'    : float(data)
+				}
+				rows_list.append(row_dict)
 
-		if row_list:
-			rows_list.append(row_list)
+		# Adds to table list
+		table_list.append(rows_list)
 
-	print(rows_list)
+	# Debug printing
+	print(table_list)
+	print(len(table_list))
+	print(len(table_list) * len(table_list[0]))
 
 if __name__ == '__main__':
 	main()
